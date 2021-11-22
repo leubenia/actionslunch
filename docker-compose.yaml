@@ -23,7 +23,7 @@ services:
       # 볼륨 쉐어링 하는 부분입니다.
       - "./Nginx/logs:/var/log/nginx"
     ports:
-      - '8080:80'
+      - '80:80'
 
 volumes:
   apiserver-node_modules:
