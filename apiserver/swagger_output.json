@@ -1,0 +1,1064 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Lunch Meet",
+    "description": "Description"
+  },
+  "host": "lebania.shop",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Login",
+      "description": "로그인"
+    },
+    {
+      "name": "signup",
+      "description": "회원가입"
+    },
+    {
+      "name": "lunchPost",
+      "description": "게시판"
+    },
+    {
+      "name": "Comment",
+      "description": "댓글"
+    },
+    {
+      "name": "Spoon",
+      "description": "유저평가"
+    },
+    {
+      "name": "Applicant",
+      "description": "신청자"
+    },
+    {
+      "name": "myProfile",
+      "description": "유저정보"
+    },
+    {
+      "name": "bookmark",
+      "description": "북마크"
+    },
+    {
+      "name": "offer",
+      "description": "다른 유저에게 점약제안"
+    }
+  ],
+  "schemes": ["https"],
+  "securityDefinitions": {
+    "token": {
+      "type": "apiKey",
+      "name": "authorization",
+      "in": "header",
+      "description": "로그인 이후 토큰을 여기다가 넣으세요~! Bearer 빠트리지 말구요 !"
+    }
+  },
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/kakao": {
+      "get": {
+        "tags": ["Login"],
+        "description": "카카오 로그인 해당방법 비공개",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/login": {
+      "get": {
+        "tags": ["Login"],
+        "description": "로그인 정보 확인",
+        "summary": "로그인 정보 확인",
+        "parameters": [],
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Login"],
+        "description": "",
+        "summary": "로컬 로그인",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/signup": {
+      "post": {
+        "tags": ["signup"],
+        "description": "",
+        "summary": "회원가입",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nickname": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/checkemail": {
+      "post": {
+        "tags": ["signup"],
+        "description": "이메일 중복확인",
+        "summary": "이메일 중복확인",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/checknickname": {
+      "post": {
+        "tags": ["signup"],
+        "description": "닉네임 중복확인",
+        "summary": "닉네임 중복확인",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nickname": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/myprofile": {
+      "get": {
+        "tags": ["myProfile"],
+        "description": "유저 본인 정보 요청",
+        "summary": "마이프로필 불러오기",
+        "parameters": [],
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["myProfile"],
+        "description": "유저 정보 변경",
+        "summary": "마이프로필 수정",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "image",
+            "type": "file"
+          },
+          {
+            "name": "profile",
+            "in": "formData",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "profile": {
+                  "example": "변경할 정보 : 변경할 값 Ex) 'mbti': 'rety', 'location': {'address_name': 'test', 'category_group_name': 'test', 'id': 12,'phone': 'test','place_name': 'test','place_url': 'test','road_address_name': 'test','x': 'test', 'y': 'test'} "
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/myprofile/{userid}": {
+      "get": {
+        "tags": ["myProfile"],
+        "description": "다른 유저 정보 요청",
+        "summary": "다른 유저 프로필 가져오기",
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/kakaologin": {
+      "post": {
+        "tags": ["Login"],
+        "description": "카카오 로그인 해당정보 비공개",
+        "summary": "카카오 로그인",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "image": {
+                  "example": "any"
+                },
+                "nickname": {
+                  "example": "any"
+                },
+                "id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/comment/{lunchid}": {
+      "get": {
+        "tags": ["Comment"],
+        "description": "해당 약속 리플 가져오기",
+        "summary": "점심약속 댓글 가져오기",
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Comment"],
+        "description": "해당 약속 리플달기",
+        "summary": "점심약속 댓글 작성",
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "comment": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/comment/{commentid}": {
+      "delete": {
+        "tags": ["Comment"],
+        "description": "해당 약속 코맨트 삭제",
+        "summary": "점심약속 댓글 삭제",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "commentid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/lunchpost/": {
+      "get": {
+        "tags": ["lunchPost"],
+        "description": "모든 약속 리스트",
+        "summary": "모든 점심약속 리스트 가져오기",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "post": {
+        "tags": ["lunchPost"],
+        "description": "점약 추가",
+        "summary": "점심약속 등록하기",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
+                },
+                "content": {
+                  "example": "any"
+                },
+                "location": {
+                  "example": "위치 정보 객체 Ex){'address_name': 'test', 'category_group_name': 'test', 'id': 12,'phone': 'test','place_name': 'test','place_url': 'test','road_address_name': 'test','x': 'test', 'y': 'test'}"
+                },
+                "date": {
+                  "example": "any"
+                },
+                "membernum": {
+                  "example": "any"
+                },
+                "duration": {
+                  "example": "int값 약속 몇시간??"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/lunchpost/{lunchid}": {
+      "get": {
+        "tags": ["lunchPost"],
+        "description": "해당 약속 정보",
+        "summary": "점심약속 상세정보",
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["lunchPost"],
+        "description": "해당 약속 삭제",
+        "summary": "점심약속 삭제",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["lunchPost"],
+        "description": "해당 약속 수정",
+        "summary": "점심약속 수정",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
+                },
+                "content": {
+                  "example": "any"
+                },
+                "date": {
+                  "example": "any"
+                },
+                "location": {
+                  "example": "any"
+                },
+                "membernum": {
+                  "example": "any"
+                },
+                "duration": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/lunchpost/onair/{lunchid}": {
+      "patch": {
+        "tags": ["lunchPost"],
+        "description": "해당 약속 진행중으로 바꾸기",
+        "summary": "점심약속 상태 : 진행중",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/lunchpost/cancel/{lunchid}": {
+      "patch": {
+        "tags": ["lunchPost"],
+        "description": "해당 약속 취소상태로 바꾸기",
+        "summary": "점심약속 상태 : 취소",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "comment": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/lunchpost/done/{lunchid}": {
+      "patch": {
+        "tags": ["lunchPost"],
+        "description": "해당 약속 종료 상태로 바꾸기",
+        "summary": "점심약속 상태 : 종료",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/spoon/": {
+      "post": {
+        "tags": ["Spoon"],
+        "description": "해당 유저 리플달기",
+        "summary": "유저 평가하기",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "targetuserid": {
+                  "example": "any"
+                },
+                "spoon": {
+                  "example": "any"
+                },
+                "comment": {
+                  "example": "any"
+                },
+                "lunchid": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/spoon/{userid}": {
+      "get": {
+        "tags": ["Spoon"],
+        "description": "해당 유저의 리플 가져오기",
+        "summary": "유저 평가 가져오기",
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/applicant/{lunchid}": {
+      "get": {
+        "tags": ["Applicant"],
+        "description": "해당 점약 신청자 가져오기",
+        "summary": "점심약속 신청자 가져오기",
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Applicant"],
+        "description": "해당 점약 신청",
+        "summary": "신청자의 점심약속 신청",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Applicant"],
+        "description": "해당 점약 취소",
+        "summary": "신청자의 점심약속 취소",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/applicant/approved/{lunchid}": {
+      "patch": {
+        "tags": ["Applicant"],
+        "description": "신청자 승인or 거절",
+        "summary": "신청자를 승인 or 거절",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userid": {
+                  "example": "1964619425"
+                },
+                "statusdesc": {
+                  "example": "true or false"
+                },
+                "comment": {
+                  "example": "승인 or 거절시, 거절사유"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/applicant/confirmed/{lunchid}": {
+      "patch": {
+        "tags": ["Applicant"],
+        "description": "신청자 참석 여부",
+        "summary": "신청자 참석 여부 결정",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusdesc": {
+                  "example": "true or false"
+                },
+                "comment": {
+                  "example": "승인 or 거절시, 거절사유"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/book": {
+      "get": {
+        "tags": ["bookmark"],
+        "description": "북마크 가져오기",
+        "summary": "북마크 가져오기",
+        "parameters": [],
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/book/{lunchid}": {
+      "post": {
+        "tags": ["bookmark"],
+        "description": "북마크 추가하기",
+        "summary": "북마크 추가하기",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lunchid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/book/{bookmarkid}": {
+      "delete": {
+        "tags": ["bookmark"],
+        "description": "북마크 삭제하기",
+        "summary": "북마크 삭제하기",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "bookmarkid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/offer": {
+      "post": {
+        "tags": ["offer"],
+        "description": "",
+        "summary": "유저에게 점약제안",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
+                },
+                "content": {
+                  "example": "any"
+                },
+                "location": {
+                  "example": "위치 정보 객체 Ex){'address_name': 'test', 'category_group_name': 'test', 'id': 12,'phone': 'test','place_name': 'test','place_url': 'test','road_address_name': 'test','x': 'test', 'y': 'test'}"
+                },
+                "date": {
+                  "example": "any"
+                },
+                "membernum": {
+                  "example": "any"
+                },
+                "duration": {
+                  "example": "int값 약속 몇시간??"
+                },
+                "userid": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/kakao/auth": {
+      "get": {
+        "tags": [],
+        "description": "비공개",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/kakao/auth/callback": {
+      "get": {
+        "tags": [],
+        "description": "비공개",
+        "parameters": [],
+        "responses": {}
+      }
+    }
+  },
+  "definitions": {}
+}
